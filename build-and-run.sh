@@ -19,6 +19,7 @@ docker run --rm \
     -e AZP_POOL="CustomAgents" \
     -e AZP_AGENT_NAME="ryzen9-linuxagent-$AGENT_NAME_SUFFIX" \
     --name "azp-agent-linux-$AGENT_NAME_SUFFIX" \
+    --restart unless-stopped
     --runtime=sysbox-runc \
     -d \
     azp-agent:linux
