@@ -31,21 +31,28 @@ RUN wget -q https://packages.microsoft.com/config/ubuntu/22.04/packages-microsof
         && apt-get update \
         && apt-get install -y powershell
  
+RUN apt-get install -y sudo
+
+RUN addgroup --gid 1001 runner && \
+	adduser --uid 1001 --gid 1001 --disabled-password --gecos "" runner && \
+	echo 'runner ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
+USER runner
+WORKDIR /home/runner/
+ 
+COPY --chown=runner:runner ./start.sh ./multi-start.sh ./
+RUN chmod +x ./start.sh ./multi-start.sh
+ 
+# GitHub Runner refuses to run as root
+USER 1001
+
 # Get Rust; NOTE: using sh for better compatibility with other base images
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
  
 # Add tools to the PATH
-ENV PATH="/root/.cargo/bin:${PATH}"
+ENV PATH="/home/runner/.cargo/bin:${PATH}"
  
 # cargo binstall saves a lot of time when installing tools, but binstall itself takes a long time, so do it within the image.
 RUN cargo install cargo-binstall --locked
- 
-WORKDIR /azp/
- 
-COPY ./start.sh ./multi-start.sh ./
-RUN chmod +x ./start.sh ./multi-start.sh
- 
-ENV AGENT_ALLOW_RUNASROOT="true"
- 
+
 ENTRYPOINT [ "./multi-start.sh" ]
  
