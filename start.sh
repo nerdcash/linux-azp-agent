@@ -19,6 +19,6 @@ fi
 curl -o actions-runner-linux-x64-2.321.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.321.0/actions-runner-linux-x64-2.321.0.tar.gz
 tar xzf ./actions-runner-linux-x64-2.321.0.tar.gz
 
-./config.sh --unattended --url ${GITHUB_ACCOUNT_URL} --token ${TOKEN} --name ${RUNNER_NAME} --replace
+./config.sh --unattended --url ${GITHUB_ACCOUNT_URL} --token ${TOKEN} --name ${RUNNER_NAME} --labels docker-in-docker --replace
 ./run.sh 
 

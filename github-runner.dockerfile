@@ -35,6 +35,7 @@ RUN apt-get install -y sudo
 
 RUN addgroup --gid 1001 runner && \
 	adduser --uid 1001 --gid 1001 --disabled-password --gecos "" runner && \
+	usermod -aG docker runner && \
 	echo 'runner ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
 USER runner
 WORKDIR /home/runner/
