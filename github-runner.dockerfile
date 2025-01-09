@@ -52,8 +52,5 @@ RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 # Add tools to the PATH
 ENV PATH="/home/runner/.cargo/bin:${PATH}"
  
-# cargo binstall saves a lot of time when installing tools, but binstall itself takes a long time, so do it within the image.
-RUN cargo install cargo-binstall --locked
-
 ENTRYPOINT [ "./multi-start.sh" ]
  
