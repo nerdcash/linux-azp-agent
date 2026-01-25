@@ -13,7 +13,7 @@ ACCESS_TOKEN=$1
 AGENT_NAME_SUFFIX=${2:-00}
  
 docker build --tag "azp-agent:linux" --file "./azp-agent-linux.dockerfile" .
-docker run --rm \
+docker run --restart unless-stopped \
     -e AZP_URL="https://dev.azure.com/andrewarnott" \
     -e AZP_TOKEN="$ACCESS_TOKEN" \
     -e AZP_POOL="CustomAgents" \
