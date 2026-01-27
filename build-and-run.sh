@@ -11,8 +11,9 @@ ACCESS_TOKEN=$1
  
 # Use the provided agent name suffix or default to '00'
 AGENT_NAME_SUFFIX=${2:-00}
- 
-docker build --tag "azp-agent:linux" --file "./azp-agent-linux.dockerfile" .
+
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)" 
+docker build --tag "azp-agent:linux" --file "$SCRIPT_DIR/azp-agent-linux.dockerfile" $SCRIPT_DIR
 docker run --restart unless-stopped \
     -e AZP_URL="https://dev.azure.com/andrewarnott" \
     -e AZP_TOKEN="$ACCESS_TOKEN" \
