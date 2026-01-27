@@ -53,6 +53,9 @@ ENV PATH="/root/.cargo/bin:${PATH}"
 # Install cargo-binstall for faster Rust tool installation
 RUN cargo install cargo-binstall --locked
 
+# Install Azure CLI
+RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
+
 WORKDIR /azp/
 
 COPY ./start.sh ./multi-start.sh ./
