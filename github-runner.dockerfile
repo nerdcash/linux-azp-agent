@@ -70,7 +70,7 @@ ENV PATH="/home/runner/.cargo/bin:${PATH}"
 RUN cargo install cargo-binstall --locked
 
 # Install Azure CLI
-RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
+RUN curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 
 COPY --chown=runner:runner ./start.sh ./multi-start.sh ./
 RUN chmod +x ./start.sh ./multi-start.sh
