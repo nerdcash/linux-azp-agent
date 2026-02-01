@@ -60,9 +60,6 @@ RUN addgroup --gid 1001 runner && \
 USER runner
 WORKDIR /home/runner/
 
-COPY --chown=runner:runner ./start.sh ./multi-start.sh ./
-RUN chmod +x ./start.sh ./multi-start.sh
-
 # Get Rust; NOTE: using sh for better compatibility with other base images
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 
@@ -74,5 +71,8 @@ RUN cargo install cargo-binstall --locked
 
 # Install Azure CLI
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
+
+COPY --chown=runner:runner ./start.sh ./multi-start.sh ./
+RUN chmod +x ./start.sh ./multi-start.sh
 
 ENTRYPOINT [ "./multi-start.sh" ]
