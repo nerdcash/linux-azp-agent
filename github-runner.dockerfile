@@ -17,6 +17,11 @@ RUN apt-get update && apt-get upgrade -y && \
         squashfs-tools \
         unzip \
         openjdk-17-jdk \
+        libwebkit2gtk-4.1-dev \
+        libappindicator3-dev \
+        librsvg2-dev \
+        patchelf \
+        libfuse2 \
         docker.io \
         sudo && \
     rm -rf /var/lib/apt/lists/*
@@ -66,5 +71,8 @@ ENV PATH="/home/runner/.cargo/bin:${PATH}"
 
 # Install cargo-binstall for faster Rust tool installation
 RUN cargo install cargo-binstall --locked
+
+# Install Azure CLI
+RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
 
 ENTRYPOINT [ "./multi-start.sh" ]

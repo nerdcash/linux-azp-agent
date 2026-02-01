@@ -12,7 +12,8 @@ ACCESS_TOKEN=$1
 # Use the provided agent name suffix or default to '00'
 AGENT_NAME_SUFFIX=${2:-00}
 
-docker build --tag "github-runner:linux" --file "./github-runner.dockerfile" .
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)" 
+docker build --tag "github-runner:linux" --file "$SCRIPT_DIR/github-runner.dockerfile" $SCRIPT_DIR
 docker run --restart unless-stopped \
     -e GITHUB_ACCOUNT_URL="https://github.com/nerdcash" \
     -e TOKEN="$ACCESS_TOKEN" \
