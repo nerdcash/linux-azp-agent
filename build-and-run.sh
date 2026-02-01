@@ -12,12 +12,12 @@ ACCESS_TOKEN=$1
 # Use the provided agent name suffix or default to '00'
 AGENT_NAME_SUFFIX=${2:-00}
 
-SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)" 
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 docker build --tag "github-runner:linux" --file "$SCRIPT_DIR/github-runner.dockerfile" $SCRIPT_DIR
 docker run --restart unless-stopped \
     -e GITHUB_ACCOUNT_URL="https://github.com/nerdcash" \
     -e TOKEN="$ACCESS_TOKEN" \
-    -e RUNNER_NAME="ryzen9-ubuntuvm-$AGENT_NAME_SUFFIX" \
+    -e RUNNER_NAME="$(hostname)-$AGENT_NAME_SUFFIX" \
     --name "github-runner-$AGENT_NAME_SUFFIX" \
     --runtime=sysbox-runc \
     -d \
