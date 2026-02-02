@@ -27,7 +27,7 @@ RUN apt-get update && apt-get upgrade -y && \
     rm -rf /var/lib/apt/lists/*
 
 # Install Android SDK Command-line Tools from Google
-RUN wget https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip -O cmdline-tools.zip && \
+RUN curl -fsSL -o cmdline-tools.zip https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip && \
     mkdir -p /opt/android/cmdline-tools/latest && \
     unzip cmdline-tools.zip -d /opt/android/cmdline-tools/latest && \
     rm cmdline-tools.zip && \
@@ -43,12 +43,17 @@ ENV PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$PATH
 RUN yes | sdkmanager --sdk_root=$ANDROID_HOME --licenses && \
     sdkmanager --sdk_root=$ANDROID_HOME "platform-tools" "platforms;android-34"
 
-# Install PowerShell
-RUN wget -q https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb && \
+# Install more apt-get packages (curl is required for these, which was installed above)
+RUN curl -fsSL -O https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb && \
     dpkg -i packages-microsoft-prod.deb && \
     rm packages-microsoft-prod.deb && \
+    curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg -o /usr/share/keyrings/githubcli-archive-keyring.gpg && \
+    chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg && \
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" > /etc/apt/sources.list.d/github-cli.list && \
     apt-get update && \
-    apt-get install -y powershell && \
+    apt-get install -y \
+        powershell \
+        gh && \
     rm -rf /var/lib/apt/lists/*
 
 # Create non-root runner user (GitHub Runner refuses to run as root)
