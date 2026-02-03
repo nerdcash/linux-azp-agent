@@ -16,6 +16,8 @@ RUN apt-get update && apt-get upgrade -y && \
         software-properties-common \
         squashfs-tools \
         unzip \
+        nodejs \
+        npm \
         openjdk-17-jdk \
         libwebkit2gtk-4.1-dev \
         libappindicator3-dev \
