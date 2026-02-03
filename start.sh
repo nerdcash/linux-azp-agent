@@ -21,7 +21,7 @@ if [ ! -f ".runner" ]; then
   echo "First run detected - downloading and configuring runner..."
   curl -o actions-runner-linux-x64-2.331.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.331.0/actions-runner-linux-x64-2.331.0.tar.gz
   tar xzf ./actions-runner-linux-x64-2.331.0.tar.gz
-  ./config.sh --unattended --url ${GITHUB_ACCOUNT_URL} --token ${TOKEN} --name ${RUNNER_NAME} --labels docker-in-docker --replace
+  ./config.sh --unattended --url ${GITHUB_ACCOUNT_URL} --token ${TOKEN} --name ${RUNNER_NAME} --labels docker-in-docker sudo --replace
 else
   echo "Runner already configured - skipping configuration..."
 fi
